@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'main',
@@ -12,7 +13,7 @@ pipeline {
         stage('Build & Test') {
             steps {
                 dir('hello-devops') {
-                    sh 'mvn clean test package'
+                    sh './mvnw clean test package'
                 }
             }
         }
@@ -26,17 +27,10 @@ pipeline {
 
     post {
         success {
-            slackSend(
-                channel: '#jenkins-devops',
-                message: "✅ SUCCESS : Pipeline DevOps AkramBenyacoub\n${env.BUILD_URL}"
-            )
+            echo 'Pipeline SUCCESS'
         }
         failure {
-            slackSend(
-                channel: '#jenkins-devops',
-                message: "❌ FAILURE : Pipeline DevOps AkramBenyacoub\n${env.BUILD_URL}"
-            )
+            echo 'Pipeline FAILED'
         }
     }
 }
-

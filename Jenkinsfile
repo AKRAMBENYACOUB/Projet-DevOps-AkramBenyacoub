@@ -12,8 +12,10 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                sh 'chmod +x mvnw'
-                sh './mvnw -f hello-devops/pom.xml clean test package'
+                dir('hello-devops') {
+                    sh 'chmod +x mvnw'
+                    sh './mvnw clean test package'
+                }
             }
         }
 

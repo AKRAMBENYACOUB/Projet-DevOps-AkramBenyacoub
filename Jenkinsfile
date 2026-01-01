@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'maven:3.9.11-eclipse-temurin-21'
+            args '-v /root/.m2:/root/.m2'
+        }
+    }
 
     stages {
 
@@ -13,8 +18,7 @@ pipeline {
         stage('Build & Test') {
             steps {
                 dir('hello-devops') {
-                    sh 'chmod +x ../mvnw'
-                    sh '../mvnw clean test package'
+                    sh 'mvn clean test package'
                 }
             }
         }

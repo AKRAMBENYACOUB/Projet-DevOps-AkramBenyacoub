@@ -9,7 +9,7 @@ pipeline {
                     url: 'https://github.com/AKRAMBENYACOUB/Projet-DevOps-AkramBenyacoub.git'
             }
         }
-
+        
         stage('Build & Test') {
             steps {
                 dir('hello-devops') {

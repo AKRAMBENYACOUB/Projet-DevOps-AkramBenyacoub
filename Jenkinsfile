@@ -13,8 +13,8 @@ pipeline {
         stage('Build & Test') {
             steps {
                 dir('hello-devops') {
-                    sh 'chmod +x mvnw'
-                    sh './mvnw clean test package'
+                    sh 'chmod +x ../mvnw'
+                    sh '../mvnw clean test package'
                 }
             }
         }

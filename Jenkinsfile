@@ -1,13 +1,7 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'JDK21'
-        maven 'Maven'
-    }
-
     stages {
-
         stage('Checkout') {
             steps {
                 git branch: 'main',
@@ -24,21 +18,25 @@ pipeline {
         }
 
         stage('Archive') {
-            when {
-                expression { currentBuild.currentResult == 'SUCCESS' }
-            }
             steps {
-                archiveArtifacts artifacts: 'hello-devops/target/*.jar', fingerprint: true
+                archiveArtifacts artifacts: 'hello-devops/target/*.jar'
             }
         }
     }
 
     post {
         success {
-            echo '✅ Pipeline SUCCESS'
+            slackSend(
+                channel: '#jenkins-devops',
+                message: "✅ SUCCESS : Pipeline DevOps AkramBenyacoub\n${env.BUILD_URL}"
+            )
         }
         failure {
-            echo '❌ Pipeline FAILED'
+            slackSend(
+                channel: '#jenkins-devops',
+                message: "❌ FAILURE : Pipeline DevOps AkramBenyacoub\n${env.BUILD_URL}"
+            )
         }
     }
 }
+
